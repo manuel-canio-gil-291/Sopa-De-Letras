@@ -67,6 +67,14 @@ public class SopaLetras {
         }
     }
 
+    public void colocarPalabraHorizontalSentidoNormal(String palabra, Coordenada coordenada) {
+        char letra = ' ';
+        for (int i = 0; i < palabra.length(); i++) {
+            letra = palabra.charAt(i);
+            tablero.get(coordenada.getFila()).set(coordenada.getColumna()+i, letra);
+        }
+    }
+
     public void colocarPalabraVertical() {
 
     }
