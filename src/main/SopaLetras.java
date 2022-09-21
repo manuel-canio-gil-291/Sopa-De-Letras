@@ -8,6 +8,7 @@ public class SopaLetras {
     private int n;
     private List<Character> x;
     private List<List<Character>> tablero = new ArrayList<List<Character>>();
+    private Tabla contadorLetrasMap;
 
     public SopaLetras() throws Exception{
         double num=Math.floor(Math.random()*10);
@@ -64,6 +65,7 @@ public class SopaLetras {
             if(this.n - (coordenada.getColumna() + palabra.length()) < 0) {
                 throw new TableroException("El tamanio de la palabra en sentido inverso supera el limite establecido");
             }
+            this.colocarPalabraHorizontalSentidoInverso(palabra, coordenada);
         }
     }
 
@@ -75,13 +77,58 @@ public class SopaLetras {
         }
     }
 
-    public void colocarPalabraVertical() {
-
+    public void colocarPalabraHorizontalSentidoInverso(String palabra, Coordenada coordenada) {
+        char letra = ' ';
+        for(int i = palabra.length(); i > 0; i--) {
+            letra = palabra.charAt(i);
+            tablero.get(coordenada.getFila()).set(coordenada.getColumna()+i, letra);
+        }
     }
 
-    public void mostrarResumenDeLetras() {
-
+    public void colocarPalabraVertical(String palabra, Coordenada coordenada) throws TableroException {
+        if(palabra == null || palabra.isEmpty()) {
+            throw new TableroException("Palabra nula o vacia");
+        }
+        else if(palabra.length() > this.n) {
+            throw new TableroException("El tamanio de la palabra es superior a la dimension");
+        }
+        else if(coordenada.getFila() > n) {
+            throw new TableroException("El numero de la fila es superior a la dimension");
+        }
+        else if(coordenada.getColumna() > n) {
+            throw new TableroException("El numero de la columna es superior a la dimension");
+        }
+        else if(coordenada.getSentido()==Sentido.NORMAL) {
+            if(this.n - (coordenada.getColumna() + palabra.length()) < 0) {
+                throw new TableroException("El tamanio de la palabra en sentido normal supera el limite establecido");
+            }
+            this.colocarPalabraVerticalSentidoNormal(palabra,coordenada);
+        }
+        else if(coordenada.getSentido()==Sentido.INVERSO) {
+            if(this.n - (coordenada.getColumna() + palabra.length()) < 0) {
+                throw new TableroException("El tamanio de la palabra en sentido inverso supera el limite establecido");
+            }
+            this.colocarPalabraVerticalSentidoInverso(palabra, coordenada);
+        }
     }
+
+    public void colocarPalabraVerticalSentidoNormal(String palabra, Coordenada coordenada) {
+        char letra = ' ';
+        for(int i = 0; i < palabra.length(); i++) {
+            letra = palabra.charAt(i);
+            tablero.get(coordenada.getFila()+1).set(coordenada.getColumna(), letra);
+        }
+    }
+
+    public void colocarPalabraVerticalSentidoInverso(String palabra, Coordenada coordenada) {
+        char letra = ' ';
+        for(int i = palabra.length(); i > 0; i--) {
+            letra = palabra.charAt(i);
+            tablero.get(coordenada.getFila()+1).set(coordenada.getColumna(), letra);
+        }
+    }
+
+    
     
     public void enviarDatosAFichero() {
 
