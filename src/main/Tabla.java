@@ -62,4 +62,15 @@ public class Tabla {
             this.contadorLetrasMap.put(letra, this.contadorLetrasMap.get(letra) + 1);
         }
     }
+
+    @Override
+    public String toString() {
+        String letras = "";
+        for(int i = 0; i < this.tamanio; i++) {
+            for(int j = 0; j < this.tamanio; j++) {
+                letras += this.tablero.get(i).get(j) + " ";
+            }
+        }
+        return letras;
+    }
 }
